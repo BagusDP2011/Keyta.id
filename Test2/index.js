@@ -47,27 +47,26 @@ cron.schedule(
   "* * * * * *",
   async () => {
     const users = await User.findAll();
-
-    for (const user of users) {
+    users.forEach(async (user) => {
       if (user.isJobScheduled) {
-        continue;
+        console.log("Job Scheduled");
       }
-
       const localTime = moment().tz(user.timezone).format("HH:mm:ss");
       const dateNow = moment().tz(user.timezone).format("MM-DD");
       full_name = user.first_name + " " + user.last_name;
       const dateObj = new Date(user.dob);
       const formattedDate = moment(dateObj).format("MM-DD");
-
-      if (localTime === "13:35:00" && dateNow === formattedDate) {
+      
+      if (localTime === "09:00:00" && dateNow === formattedDate) {
         const body = `Hey, ${full_name} it’s your birthday`;
         await axios.post("https://eosr4f9uaga8gmo.m.pipedream.net", body);
 
         user.isJobScheduled = false;
       }
+      
 
       user.isJobScheduled = true;
-    }
+    })
   },
   {
     scheduled: true,
