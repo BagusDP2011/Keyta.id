@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const userAuthRoute = require("./routes/userAuthRoutes");
+const restaurantRoute = require("./routes/restaurantRoutes");
 const cron = require("node-cron");
 const axios = require("axios");
 const moment = require("moment-timezone");
@@ -14,6 +15,7 @@ app.use(express.json());
 
 //API Routes
 app.use("/v1/users", userAuthRoute);
+app.use("/v1/restaurants", restaurantRoute);
 
 //Beyond the world
 app.get("/", (req, res) => {
@@ -31,6 +33,7 @@ app.listen(port, () => {
 //DB Configuration
 const mysql = require("mysql");
 const User = require("./models/user");
+const Restaurants = require("./models/restaurants");
 const connection = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -57,7 +60,7 @@ cron.schedule(
       const dateObj = new Date(user.dob);
       const formattedDate = moment(dateObj).format("MM-DD");
       
-      if (localTime === "09:00:00" && dateNow === formattedDate) {
+      if (localTime === "14:29:00" && dateNow === formattedDate) {
         const body = `Hey, ${full_name} it’s your birthday`;
         await axios.post("https://eosr4f9uaga8gmo.m.pipedream.net", body);
 

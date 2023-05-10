@@ -12,6 +12,7 @@ describe("User routes", () => {
       last_name: "Lenon",
       dob: "2023-04-23",
       location: "Indonesia",
+      timezone: "Asia/Jakarta"
     };
 
     const res = await request(app)
@@ -32,7 +33,7 @@ describe("User routes", () => {
     });
   });
 
-  test.only("DELETE /v1/users/:id", async () => {
+  test("DELETE /v1/users/:id", async () => {
     await insertUser(newUser);
 
     await request(app)

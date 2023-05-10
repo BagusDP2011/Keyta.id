@@ -1,7 +1,5 @@
 const User = require("../models/user");
-const userAuthService = require("../services/userAuthService");
 const httpStatus = require("http-status");
-const moment = require("moment-timezone");
 const ct = require("countries-and-timezones");
 const { getCode } = require("country-list");
 
@@ -12,7 +10,7 @@ const register = async (req, res) => {
       const locationCode = getCode(location);
       const country = ct.getCountry(locationCode);
       const timezoneAuto = country.timezones[0].toString();
-      req.body.timezone = timezoneAuto
+      req.body.timezone = timezoneAuto;
     }
     const user = await User.create({
       first_name,
